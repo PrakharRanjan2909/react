@@ -32,6 +32,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  width: 100%;
 `;
 
 const Header = styled.div`
@@ -67,7 +68,7 @@ const Total = styled.h2`
 const ButtonClose = styled.button`
   position: absolute;
   top: 30px;
-  right: 50px;
+  right: 60px;
   padding: 10px;
   background-color: white;
   color: black;
@@ -95,6 +96,7 @@ const Dropdown = styled.select`
 // `;
 const LineGraph = styled.div`
   width: 100%;
+  max-width: 1300px;
 
   margin: 20px 0;
 `;
@@ -253,6 +255,10 @@ const App = () => {
       y: {
         display: true,
         beginAtZero: true,
+        title: {
+          display: true,
+          text: "Cost",
+        },
       },
     },
   };
@@ -266,11 +272,20 @@ const App = () => {
           <Total>Total: {selectedData.total}</Total>
         </Info> */}
         <Info style={{ display: "flex", alignItems: "center" }}>
-          <ChargeCode>Charge Code: {selectedData.chargeCode}</ChargeCode>
+          <ChargeCode>Charge Code: </ChargeCode>
+
+          <span style={{ fontSize: "20px", marginLeft: "10px" }}>
+            {selectedData.chargeCode}
+          </span>
+
           <div style={{ margin: "0 10px", fontSize: "20px", color: "grey" }}>
             |
           </div>
-          <Total>Total: {selectedData.total}</Total>
+          {/* <Total>Total: {selectedData.total}</Total> */}
+          <Total>Total: </Total>
+          <span style={{ fontSize: "20px", marginLeft: "10px" }}>
+            {selectedData.total}
+          </span>
         </Info>
 
         <Dropdown value={selectedOption} onChange={handleOptionChange}>
@@ -299,7 +314,7 @@ const App = () => {
               <td>
                 {account.account}
                 <br />
-                {account.friendlyName}
+                <strong>{account.friendlyName}</strong>
               </td>
               {account.costs.map((cost, index) => (
                 <td key={index}>${cost.toFixed(2)}</td>
