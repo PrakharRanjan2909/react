@@ -1,9 +1,31 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Line } from "react-chartjs-2";
+import {
+  Chart,
+  LineElement,
+  PointElement,
+  LineController,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+Chart.register(
+  LineElement,
+  PointElement,
+  LineController,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend
+);
 
 // import { CategoryScale } from "chart.js";
-import Chart from "chart.js/auto";
+// import Chart from "chart.js/auto";
 
 const Container = styled.div`
   display: flex;
@@ -38,8 +60,31 @@ const Total = styled.h2`
   // margin-left: 20px;
 `;
 
+// const Dropdown = styled.select`
+//   align-self: flex-start;
+// `;
+
+const ButtonClose = styled.button`
+  position: absolute;
+  top: 30px;
+  right: 50px;
+  padding: 10px;
+  background-color: white;
+  color: black;
+  border-color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+`;
+
 const Dropdown = styled.select`
-  align-self: flex-start;
+  position: absolute; // Position the dropdown absolutely
+  top: 30px; // Adjust top position
+  right: 125px; // Adjust right position
+  padding: 10px;
+  border-color: black;
+  border-radius: 5px;
+  font-size: 16px;
 `;
 
 // const LineGraph = styled.div`
@@ -51,7 +96,6 @@ const Dropdown = styled.select`
 const LineGraph = styled.div`
   width: 100%;
 
-  max-width: 800px;
   margin: 20px 0;
 `;
 
@@ -71,6 +115,13 @@ const Table = styled.table`
     text-align: center;
   }
 `;
+
+// const CloseButton = styled.button`
+//   background: none;
+//   border: ;
+//   font-size: 1.2em;
+//   cursor: pointer;
+// `;
 
 const data = [
   {
@@ -148,6 +199,10 @@ const App = () => {
     setSelectedOption(e.target.value);
   };
 
+  const handleClose = () => {
+    console.log("Close button clicked");
+  };
+
   const selectedData = data[1]; // Select data based on some logic or user selection
 
   const chartData = {
@@ -159,6 +214,9 @@ const App = () => {
       backgroundColor:
         index === 0 ? "rgba(75,192,192,0.2)" : "rgba(153,102,255,0.2)",
       tension: 0.4, // Add tension for smooth curve
+      pointStyle: "rect",
+      pointRadius: 5,
+      pointHoverRadius: 8,
     })),
   };
 
@@ -171,8 +229,33 @@ const App = () => {
     borderColor: "rgba(255,99,132,1)",
     backgroundColor: "rgba(255,99,132,0.2)",
     borderDash: [5, 5],
+    tension: 0.4, // Add tension for smooth curve
+    pointStyle: "circle",
+    pointRadius: 5,
+    pointHoverRadius: 8,
   };
   chartData.datasets.push(averageData);
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          usePointStyle: true,
+        },
+      },
+    },
+    scales: {
+      x: {
+        display: true,
+      },
+      y: {
+        display: true,
+        beginAtZero: true,
+      },
+    },
+  };
 
   return (
     <Container>
@@ -189,13 +272,17 @@ const App = () => {
           </div>
           <Total>Total: {selectedData.total}</Total>
         </Info>
+
         <Dropdown value={selectedOption} onChange={handleOptionChange}>
           <option value="Last Year Average">Last Year Average</option>
           <option value="Other Option">Other Option</option>
         </Dropdown>
+        <ButtonClose onClick={handleClose}>Close</ButtonClose>
+
+        {/* <CloseButton onClick={handleClose}>X</CloseButton> */}
       </Header>
       <LineGraph>
-        <Line data={chartData} options={{ responsive: true }} />
+        <Line data={chartData} options={chartOptions} />
       </LineGraph>
       <Table>
         <thead>
