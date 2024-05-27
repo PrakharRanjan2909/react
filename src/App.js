@@ -80,7 +80,7 @@ const ButtonClose = styled.button`
 const Dropdown = styled.select`
   position: absolute; // Position the dropdown absolutely
   top: 30px; // Adjust top position
-  right: 125px; // Adjust right position
+  right: 100px; // Adjust right position
   padding: 10px;
   border-color: black;
   border-radius: 5px;
@@ -277,7 +277,7 @@ const App = () => {
           <option value="Last Year Average">Last Year Average</option>
           <option value="Other Option">Other Option</option>
         </Dropdown>
-        <ButtonClose onClick={handleClose}>Close</ButtonClose>
+        <ButtonClose onClick={handleClose}>X</ButtonClose>
 
         {/* <CloseButton onClick={handleClose}>X</CloseButton> */}
       </Header>
