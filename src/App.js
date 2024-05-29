@@ -98,6 +98,9 @@ const LineGraph = styled.div`
   width: 100%;
   max-width: 1300px;
 
+  min-height: 400px;
+  max-height: 600px;
+
   margin: 20px 0;
 `;
 
@@ -240,6 +243,7 @@ const App = () => {
 
   const chartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "bottom",
